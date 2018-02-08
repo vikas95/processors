@@ -10,6 +10,7 @@ import akka.event.Logging
 
 import org.clulab.processors._
 import org.clulab.processors.bionlp._
+import org.clulab.processors.clu._
 import org.clulab.processors.corenlp._
 import org.clulab.processors.fastnlp._
 import org.clulab.processors.shallownlp._
@@ -117,6 +118,10 @@ class ProcessorServer (
                                                 removeFigTabReferences,
                                                 removeBibReferences)
 
+      case "clu" => new CluProcessor()
+        
+      case "bioclu" => new BioCluProcessor()
+        
       case _ => new ShallowNLPProcessor(internStrings, withChunks)
     }
   }
