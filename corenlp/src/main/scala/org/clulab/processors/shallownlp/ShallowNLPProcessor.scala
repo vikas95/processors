@@ -301,6 +301,8 @@ object ShallowNLPProcessor {
     val sentencesAnnotation = new util.ArrayList[CoreMap]()
     docAnnotation.set(classOf[SentencesAnnotation], sentencesAnnotation.asInstanceOf[java.util.List[CoreMap]])
 
+    val allTokens = new util.ArrayList[CoreLabel]
+
     var sentOffset = 0
     var tokenOffset = 0
     for(sentence <- doc.sentences) {
@@ -327,6 +329,7 @@ object ShallowNLPProcessor {
       // tokens
       val crtSent = new Annotation(sentence.getSentenceText)
       crtSent.set(classOf[TokensAnnotation], crtTokens)
+      allTokens.addAll(crtTokens)
 
       // character offsets and actual text
       val sentStartOffset = sentence.startOffsets.head
@@ -344,6 +347,8 @@ object ShallowNLPProcessor {
       sentencesAnnotation.add(crtSent)
       sentOffset += 1
     }
+
+    docAnnotation.set(classOf[TokensAnnotation], allTokens)
 
     docAnnotation
   }
